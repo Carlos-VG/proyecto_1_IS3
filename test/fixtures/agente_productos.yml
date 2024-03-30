@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  producto: one
+  agente: one
+  prod_cantidad: 1
+  fechaSuministro: 2024-03-30 10:45:54
+
+two:
+  producto: two
+  agente: two
+  prod_cantidad: 1
+  fechaSuministro: 2024-03-30 10:45:54

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  clt_nombre: MyString
+  clt_direccion: MyString
+  ped_costo: 9.99
+  ped_fecha: 2024-03-30
+
+two:
+  clt_nombre: MyString
+  clt_direccion: MyString
+  ped_costo: 9.99
+  ped_fecha: 2024-03-30
