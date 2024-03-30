@@ -1,7 +1,7 @@
 <!-- app/views/proveedor_productos/new.html.erb -->
 <h1>Pedir Nuevo Suministro de Productos</h1>
 
-<%= form_with url: new_agente_producto_path, local: true do |form| %>
+<%= form_with url: agente_productos_path, local: true do |form| %>
   <div>
     <%= form.label :agente_id, "Seleccionar Proveedor" %>
     <%= select_tag :agente_id, options_from_collection_for_select(@agentes, :id, :agen_nombre) %>

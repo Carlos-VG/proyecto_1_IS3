@@ -6,22 +6,42 @@ class AgenteProductosController < ApplicationController
   end
 
   def create
+    # Verificar si se recibió el parámetro :agente_id
+    if params[:agente_id].blank?
+      redirect_to root_path, alert: 'El ID del agente es requerido.'
+      return
+    end
+
+    # Verificar si se recibieron los parámetros :productos
+    if params[:productos].blank?
+      redirect_to root_path, alert: 'La información de productos es requerida.'
+      return
+    end
+
     agente_id = params[:agente_id]
     productos_params = params[:productos]
 
-    productos_params.each do |producto_id, detalles|
-      cantidad = detalles[:cantidad].to_i
-      next if cantidad <= 0  # Salta el producto si la cantidad es 0 o negativa
+    begin
+      # Iterar sobre los productos suministrados
+      productos_params.each do |producto_id, detalles|
+        cantidad = detalles[:cantidad].to_i
+        next if cantidad <= 0
 
-      AgenteProducto.create(
-        agente_id: agente_id,
-        producto_id: producto_id,
-        prod_cantidad: cantidad,
-        fechaSuministro: Time.now  # Ajusta esto según cómo quieras manejar la fecha
-      )
+        # Crear registro de AgenteProducto
+        AgenteProducto.create!(
+          producto_id: producto_id,
+          agente_id: agente_id,
+          prod_cantidad: cantidad,
+          fechaSuministro: Time.now
+        )
+      end
+
+      # Redireccionar con mensaje de éxito
+      redirect_to root_path, notice: 'Productos suministrados con éxito.'
+    rescue => e
+      # Manejar errores durante la creación de registros
+      redirect_to root_path, alert: "Error al suministrar productos: #{e.message}"
     end
-
-    # Redireccionar a algún lado, por ejemplo, de vuelta a la página de nuevo registro
-    redirect_to new_agente_producto_path, notice: 'Productos suministrados con éxito.'
   end
+
 end
