@@ -197,6 +197,9 @@
     <entry key="app">
       <value>file://$MODULE_DIR$/../proyecto_1_IS3\app</value>
     </entry>
+    <entry key="app/api">
+      <value>file://$MODULE_DIR$/../proyecto_1_IS3\app/api</value>
+    </entry>
     <entry key="app/assets">
       <value>file://$MODULE_DIR$/../proyecto_1_IS3\app/assets</value>
     </entry>
@@ -295,8 +298,7 @@
       <value>file://$MODULE_DIR$/../proyecto_1_IS3\vendor/assets</value>
     </entry>
   </component>
-  <component name="RakeTasksCache-v2" failedReloadsCounter="1">
-    <option name="failedReloadsCounter" value="1" />
+  <component name="RakeTasksCache-v2">
     <option name="myRootTask">
       <RakeTaskImpl id="rake">
         <subtasks>

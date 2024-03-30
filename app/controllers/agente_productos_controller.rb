@@ -34,6 +34,9 @@ class AgenteProductosController < ApplicationController
           prod_cantidad: cantidad,
           fechaSuministro: Time.now
         )
+        productostockantiguo = ProductStock.find_by(producto_id: producto_id)
+        cantidadantigua= productostockantiguo.ped_cantidadDisponible
+        ProductStock.update(producto_id:producto_id, ped_cantidadDisponible: cantidad+cantidadantigua)
       end
 
       # Redireccionar con mensaje de éxito
