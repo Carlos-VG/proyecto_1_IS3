@@ -1,8 +1,29 @@
-<!-- app/views/productos/show.html.erb -->
 <h1>Proveedor</h1>
-<p>
-  <strong>Nombre:</strong>
-  <%= @agente.agen_nombre %>
-</p>
 
-<%= link_to 'Volver',agentes_path%>
+<% if @agente_productos.any? %>
+  <table>
+    <thead>
+    <tr>
+      <th>Nombre del Agente</th>
+      <th>Nombre del Producto</th>
+      <th>Cantidad</th>
+      <th>Fecha de Suministro</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @agente_productos.order(fechaSuministro: :desc).each do |agente_producto| %>
+      <tr>
+        <td><%= agente_producto.agente.agen_nombre %></td>
+        <td><%= agente_producto.producto.prod_nombre %></td>
+        <td><%= agente_producto.prod_cantidad %></td>
+        <td><%= agente_producto.fechaSuministro.strftime("%d-%m-%Y") %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>El agente no tiene suministros.</p>
+<% end %>
+
+<br>
+<%= link_to 'Volver', agentes_path %>

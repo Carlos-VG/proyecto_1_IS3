@@ -11,6 +11,8 @@ class AgentesController < ApplicationController
   # GET /agentes/1.json
   def show
     @agente = Agente.find(params[:id])
+    @agente_productos = @agente.agente_productos
+    @agente = Agente.find(params[:id])
   end
 
   # GET /agentes/new
