@@ -32,6 +32,7 @@ class ProductosController < ApplicationController
     respond_to do |format|
       if @producto.save
         format.html { redirect_to @producto, notice: 'Producto creado con éxito.' }
+        ProductStock.create(producto_id: @producto.id, ped_cantidadDisponible: 0)
         format.json { render :show, status: :created, location: @producto }
       else
         format.html { render :new }
