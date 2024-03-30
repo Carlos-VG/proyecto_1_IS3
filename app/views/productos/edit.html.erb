@@ -1,2 +1,20 @@
-<h1>Productos#edit</h1>
-<p>Find me in app/views/productos/edit.html.erb</p>
+<%= form_for @producto do |f| %>
+    <div class="field">
+        <%= f.label :nombre %>
+        <%= f.text_field :nombre %>
+    </div>
+
+    <div class="field">
+        <%= f.label :precio %>
+        <%= f.text_field :precio %>
+    </div>
+
+    <div class="field">
+        <%= f.label :descripcion %>
+        <%= f.text_field :descripcion %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit "Guardar cambios" %>
+    </div>
+<% end %>

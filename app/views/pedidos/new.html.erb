@@ -1,2 +1,39 @@
-<h1>Pedidos#new</h1>
-<p>Find me in app/views/pedidos/new.html.erb</p>
+<!-- app/views/pedidos/new.html.erb -->
+<h1>Crear un nuevo pedido</h1>
+
+<%= form_with model: @pedido, url: pedidos_path do |form| %>
+  <div>
+    <%= form.label :clt_nombre, "Nombre del cliente" %>
+    <%= form.text_field :clt_nombre %>
+  </div>
+
+  <div>
+    <%= form.label :clt_direccion, "Dirección de entrega" %>
+    <%= form.text_field :clt_direccion %>
+  </div>
+
+  <div class="field">
+    <%= form.label :"Fecha del pedido" %>
+    <%= form.hidden_field :ped_fecha, value: Date.today %>
+    <p><%= Date.today %></p>
+  </div>
+
+  <!-- Imprimir el valor de @productos aquí -->
+  <% if @productos.present? %>
+    <p>Productos disponibles: <%= @productos.inspect %></p>
+  <% else %>
+    <p>No hay productos disponibles.</p>
+  <% end %>
+
+  <h2>Productos</h2>
+  <% @productos.each do |producto| %>
+    <div>
+      <%= hidden_field_tag "productos[#{producto.id}][comprado]", 0 %>
+      <%= label_tag "productos_#{producto.id}_comprado", producto.prod_nombre %>
+      <%= number_field_tag "productos[#{producto.id}][cantidad]", 0, min: 0 %>
+      <%= label_tag "productos_#{producto.id}_precio", number_to_currency(producto.prod_precio) %>
+    </div>
+  <% end %>
+
+  <%= form.submit "Crear Pedido" %>
+<% end %>

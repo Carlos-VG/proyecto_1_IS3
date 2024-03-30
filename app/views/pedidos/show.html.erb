@@ -1,2 +1,47 @@
-<h1>Pedidos#show</h1>
-<p>Find me in app/views/pedidos/show.html.erb</p>
+<!-- app/views/pedidos/show.html.erb -->
+<h1>Pedido <%= @pedido.id %></h1>
+
+<p>
+  <strong>Nombre del cliente:</strong>
+  <%= @pedido.clt_nombre %>
+</p>
+
+<p>
+  <strong>Dirección de entrega:</strong>
+  <%= @pedido.clt_direccion %>
+</p>
+
+<p>
+  <strong>Fecha del pedido:</strong>
+  <%= @pedido.ped_fecha %>
+</p>
+
+<p>
+  <strong>Costo total:</strong>
+  <%= number_to_currency(@pedido.ped_costo) %>
+</p>
+
+<h2>Productos en este pedido</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Nombre del Producto</th>
+    <th>Cantidad</th>
+    <th>Precio Unitario</th>
+    <th>Subtotal</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @pedido.pedido_productos.each do |pedido_producto| %>
+    <tr>
+      <td><%= pedido_producto.producto.prod_nombre %></td>
+      <td><%= pedido_producto.cantidad %></td>
+      <td><%= number_to_currency(pedido_producto.producto.prod_precio) %></td>
+      <td><%= number_to_currency(pedido_producto.cantidad * pedido_producto.producto.prod_precio) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Editar Pedido', edit_pedido_path(@pedido) %> |
+<%= link_to 'Volver a la lista de pedidos', pedidos_path %>
