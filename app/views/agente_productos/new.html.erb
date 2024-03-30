@@ -1,2 +1,20 @@
-<h1>AgenteProductos#new</h1>
-<p>Find me in app/views/agente_productos/new.html.erb</p>
+<!-- app/views/proveedor_productos/new.html.erb -->
+<h1>Pedir Nuevo Suministro de Productos</h1>
+
+<%= form_with url: new_agente_producto_path, local: true do |form| %>
+  <div>
+    <%= form.label :agente_id, "Seleccionar Proveedor" %>
+    <%= select_tag :agente_id, options_from_collection_for_select(@agentes, :id, :agen_nombre) %>
+  </div>
+
+  <h2>Productos</h2>
+  <% @productos.each do |producto| %>
+    <div>
+      <%= label_tag "productos_#{producto.id}_cantidad", producto.prod_nombre %>
+      <%= number_field_tag "productos[#{producto.id}][cantidad]", 0, min: 0 %>
+    </div>
+  <% end %>
+
+  <%= form.submit "Suministrar Productos" %>
+<% end %>
+<%= link_to 'Volver', root_path %>

@@ -1,22 +1,27 @@
 class AgenteProductosController < ApplicationController
-  def index
-  end
-
-  def show
-  end
 
   def new
-  end
-
-  def edit
+    @agentes = Agente.all
+    @productos = Producto.all
   end
 
   def create
-  end
+    agente_id = params[:agente_id]
+    productos_params = params[:productos]
 
-  def update
-  end
+    productos_params.each do |producto_id, detalles|
+      cantidad = detalles[:cantidad].to_i
+      next if cantidad <= 0  # Salta el producto si la cantidad es 0 o negativa
 
-  def destroy
+      AgenteProducto.create(
+        agente_id: agente_id,
+        producto_id: producto_id,
+        prod_cantidad: cantidad,
+        fechaSuministro: Time.now  # Ajusta esto según cómo quieras manejar la fecha
+      )
+    end
+
+    # Redireccionar a algún lado, por ejemplo, de vuelta a la página de nuevo registro
+    redirect_to new_agente_producto_path, notice: 'Productos suministrados con éxito.'
   end
 end

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'agente_productos/new', to: 'agente_productos#new', as: 'new_agente_producto'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # Rutas para Pedido
   resources :pedidos do
@@ -23,7 +24,7 @@ Rails.application.routes.draw do
 
   # Rutas para PedidoProducto y ProveedorProducto si necesitas manipular estas relaciones directamente
   resources :pedido_productos
-  resources :agente_productos
+  resources :agente_productos, only: [:new, :create]
 
   # Ruta para ProductStock si necesitas rutas no anidadas para manejar el stock
   resources :product_stocks
