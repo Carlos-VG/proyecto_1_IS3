@@ -1,2 +1,10 @@
-<h1>Agentes#edit</h1>
-<p>Find me in app/views/agentes/edit.html.erb</p>
+<%= form_for @agente do |f| %>
+  <div class="field">
+    <%= f.label :nombre %>
+    <%= f.text_field :agen_nombre %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Guardar cambios" %>
+  </div>
+<% end %>
