@@ -3,6 +3,7 @@
 
 <table>
   <tr>
+    <th>ID</th>
     <th>Nombre</th>
     <th>Precio</th>
     <th>Descripción</th>
@@ -11,6 +12,7 @@
 
   <% @productos.each do |producto| %>
     <tr>
+      <td><%= producto.id %></td>
       <td><%= producto.prod_nombre %></td>
       <td><%= producto.prod_precio %></td>
       <td><%= producto.prod_descripcion %></td>
