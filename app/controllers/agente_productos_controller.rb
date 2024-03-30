@@ -34,17 +34,21 @@ class AgenteProductosController < ApplicationController
           prod_cantidad: cantidad,
           fechaSuministro: Time.now
         )
-        productostockantiguo = ProductStock.find_by(producto_id: producto_id)
-        cantidadantigua= productostockantiguo.ped_cantidadDisponible
-        ProductStock.update(producto_id:producto_id, ped_cantidadDisponible: cantidad+cantidadantigua)
-      end
 
+        # Encuentra el stock antiguo del producto
+        productostockantiguo = ProductStock.find_by(producto_id: producto_id)
+        if productostockantiguo.present?
+          cantidadantigua = productostockantiguo.ped_cantidadDisponible
+          # Actualiza la cantidad disponible del stock
+          productostockantiguo.update(ped_cantidadDisponible: cantidad + cantidadantigua)
+        end
+      end
       # Redireccionar con mensaje de éxito
       redirect_to root_path, notice: 'Productos suministrados con éxito.'
     rescue => e
       # Manejar errores durante la creación de registros
       redirect_to root_path, alert: "Error al suministrar productos: #{e.message}"
-    end
+      end
   end
 
 end
