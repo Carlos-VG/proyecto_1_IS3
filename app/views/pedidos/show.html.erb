@@ -35,9 +35,9 @@
   <% @pedido.pedido_productos.each do |pedido_producto| %>
     <tr>
       <td><%= pedido_producto.producto.prod_nombre %></td>
-      <td><%= pedido_producto.cantidad %></td>
+      <td><%= pedido_producto.ped_prod_cantidad %></td>
       <td><%= number_to_currency(pedido_producto.producto.prod_precio) %></td>
-      <td><%= number_to_currency(pedido_producto.cantidad * pedido_producto.producto.prod_precio) %></td>
+      <td><%= number_to_currency(pedido_producto.ped_prod_cantidad * pedido_producto.producto.prod_precio) %></td>
     </tr>
   <% end %>
   </tbody>

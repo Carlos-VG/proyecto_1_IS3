@@ -21,7 +21,6 @@
         <td><%= number_to_currency(pedido.ped_costo) %></td>
         <td>
           <%= link_to 'Ver', pedido %> |
-          <%= link_to 'Editar', edit_pedido_path(pedido) %>
           <%= link_to 'Eliminar', pedido, method: :delete, data: { confirm: '¿Estás seguro?' }, "data-turbo-method": "delete" %>
         </td>
       </tr>

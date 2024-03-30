@@ -19,14 +19,24 @@ class PedidosController < ApplicationController
 
   def create
     @pedido = Pedido.new(pedido_params)
-
-    if @pedido.save
-      calcular_costo_total
-      redirect_to @pedido, notice: 'Pedido creado correctamente.'
-    else
-      render :new
+    @pedido.ped_costo=0
+    puts "Creando pedido..."
+    respond_to do |format|
+      if @pedido.save
+        puts"Pedido guardado"
+        calcular_costo_total
+        format.html { redirect_to @pedido, notice: 'Pedido creado correctamente.' }
+        format.json { render :show, status: :created, location: @pedido }
+      else
+        puts "Error al guardar pedido"
+        puts @pedido.errors.full_messages.inspect
+        format.html { render :new }
+        format.json { render json: @pedido.errors, status: :unprocessable_entity }
+      end
     end
   end
+
+
 
 
   def update
@@ -51,22 +61,39 @@ class PedidosController < ApplicationController
   end
 
   def calcular_costo_total
+    total_costo = calcular_total_costo_productos(params[:productos])
+    actualizar_pedido_con_costo_total(total_costo)
+  end
+
+  def calcular_total_costo_productos(productos_params)
     total_costo = 0
 
-    if params[:productos].present?
-      params[:productos].each do |producto_id, detalles|
+    if productos_params.present?
+      productos_params.each do |producto_id, detalles|
         cantidad = detalles[:cantidad].to_i
-        if cantidad > 0
-          producto = Producto.find_by(id: producto_id)
-          if producto
-            costo_producto = producto.prod_precio * cantidad
-            total_costo += costo_producto
-            puts "Producto: #{detalles[:pedido_id].to_i}, cantidad: #{cantidad}"
-            PedidoProducto.create(pedido_id: @pedido.id, producto_id: producto_id, ped_prod_cantidad: cantidad)
-          end
-        end
+        next unless cantidad.positive?
+
+        producto = Producto.find_by(id: producto_id)
+        next unless producto
+
+        costo_producto = calcular_costo_producto(producto.prod_precio, cantidad)
+        total_costo += costo_producto
+        crear_pedido_producto(@pedido.id, producto_id, cantidad)
       end
     end
+
+    total_costo
+  end
+
+  def calcular_costo_producto(precio_unitario, cantidad)
+    precio_unitario * cantidad
+  end
+
+  def crear_pedido_producto(pedido_id, producto_id, cantidad)
+    PedidoProducto.create(pedido_id: pedido_id, producto_id: producto_id, ped_prod_cantidad: cantidad)
+  end
+
+  def actualizar_pedido_con_costo_total(total_costo)
     @pedido.ped_costo = total_costo
     @pedido.save
   end
