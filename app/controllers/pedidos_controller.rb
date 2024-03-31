@@ -20,8 +20,11 @@ class PedidosController < ApplicationController
     @pedido = Pedido.new(pedido_params)
     @pedido.ped_costo=0
     puts "Creando pedido..."
+    total_costo = calcular_total_costo_productos_sineliminar(params[:productos])
     respond_to do |format|
-      if @pedido.save
+      if total_costo ==0
+        format.html { redirect_to new_pedido_path, alert: 'La cantidad de uno o más productos excede la cantidad disponible en el stock.' }
+      elsif if @pedido.save
         puts"Pedido guardado"
         calcular_costo_total
         format.html { redirect_to @pedido, notice: 'Pedido creado correctamente.' }
@@ -31,6 +34,7 @@ class PedidosController < ApplicationController
         puts @pedido.errors.full_messages.inspect
         format.html { render :new }
         format.json { render json: @pedido.errors, status: :unprocessable_entity }
+      end
       end
     end
   end
@@ -69,6 +73,30 @@ class PedidosController < ApplicationController
 
     if productos_params.present?
       productos_params.each do |producto_id, detalles|
+        productochequear = ProductStock.find_by(producto_id: producto_id)
+        cantidadchequear = productochequear.ped_cantidadDisponible
+        cantidad = detalles[:cantidad].to_i
+        next unless cantidad.positive?
+
+        producto = Producto.find_by(id: producto_id)
+        next unless producto
+
+        costo_producto = calcular_costo_producto(producto.prod_precio, cantidad)
+        total_costo += costo_producto
+        crear_pedido_producto(@pedido.id, producto_id, cantidad)
+        ProductStock.update(producto_id, ped_cantidadDisponible: cantidadchequear - cantidad)
+      end
+    end
+
+    total_costo
+  end
+  def calcular_total_costo_productos_sineliminar(productos_params)
+    total_costo = 0
+
+    if productos_params.present?
+      productos_params.each do |producto_id, detalles|
+        productochequear = ProductStock.find_by(producto_id: producto_id)
+        cantidadchequear = productochequear.ped_cantidadDisponible
         cantidad = detalles[:cantidad].to_i
         next unless cantidad.positive?
 
@@ -83,7 +111,6 @@ class PedidosController < ApplicationController
 
     total_costo
   end
-
   def calcular_costo_producto(precio_unitario, cantidad)
     precio_unitario * cantidad
   end
