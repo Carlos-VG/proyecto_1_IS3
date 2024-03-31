@@ -1,8 +1,13 @@
 <!-- app/views/home/index.html.erb -->
-<h1>Bienvenido a Mi Aplicación</h1>
-<p>Esta es la página de inicio de mi fantástica aplicación web.</p>
+<link rel="stylesheet" type="text/css" href="app/assets/stylesheets/style.css">
+<div class="container">
+  <h1>Bienvenido a Mi Aplicación</h1>
+  <p>Esta es la página de inicio de mi fantástica aplicación web.</p>
 
-<%= link_to 'Productos', productos_path %>
-<%= link_to 'Pedidos', pedidos_path %>
-<%= link_to 'Agentes', agentes_path %>
-<%= link_to 'Nuevo Suministro', new_agente_producto_path %>
+  <div class="home-links">
+    <%= link_to 'Productos', productos_path, class: 'button' %>
+    <%= link_to 'Pedidos', pedidos_path, class: 'button' %>
+    <%= link_to 'Agentes', agentes_path, class: 'button' %>
+    <%= link_to 'Nuevo Suministro', new_agente_producto_path, class: 'button' %>
+  </div>
+</div>
