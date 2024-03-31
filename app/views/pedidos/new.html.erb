@@ -1,4 +1,3 @@
-<!-- app/views/pedidos/new.html.erb -->
 <h1>Crear un nuevo pedido</h1>
 
 <%= form_with model: @pedido, url: pedidos_path do |form| %>
@@ -13,25 +12,37 @@
   </div>
 
   <div class="field">
-    <%= form.label :"Fecha del pedido" %>
+    <%= form.label :ped_fecha, "Fecha del pedido: " %>
     <%= form.hidden_field :ped_fecha, value: Date.today %>
     <p><%= Date.today %></p>
   </div>
 
-  <!-- Imprimir el valor de @productos aquí -->
-  <% if @productos.present? %>
-    <p>Productos disponibles: <%= @productos.inspect %></p>
-    <h2>Productos</h2>
-    <% @productos.each do |producto| %>
-      <div>
-        <%= hidden_field_tag "productos[#{producto.id}][comprado]", 0 %>
-        <%= label_tag "productos_#{producto.id}_comprado", producto.prod_nombre %>
-        <%= number_field_tag "productos[#{producto.id}][cantidad]", 0, min: 0 %>
-        <%= label_tag "productos_#{producto.id}_precio", number_to_currency(producto.prod_precio) %>
-      </div>
-    <% end %>
-  <% else %>
-    <p>No hay productos disponibles.</p>
+  <h2>Productos</h2>
+  <% @productos.each do |producto| %>
+    <div>
+      <%= label_tag "productos_#{producto.id}_cantidad", "#{producto.prod_nombre} - Precio Unitario: #{number_to_currency(producto.prod_precio)}, Cantidad Disponible: #{producto.product_stock&.ped_cantidadDisponible}, Cantidad a Solicitar:" %>
+      <%= number_field_tag "productos[#{producto.id}][cantidad]", 0, min: 0, max: producto.product_stock&.ped_cantidadDisponible, data: { max: producto.product_stock&.ped_cantidadDisponible }, class: 'product-quantity' %>
+    </div>
   <% end %>
+
   <%= form.submit "Crear Pedido" %>
 <% end %>
+<%= link_to 'Volver', root_path %>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.querySelector('form').addEventListener('submit', function(e) {
+    let isValid = true;
+    document.querySelectorAll('.product-quantity').forEach(function(input) {
+      const maxAvailable = parseInt(input.dataset.max, 10);
+      if (parseInt(input.value, 10) > maxAvailable) {
+        alert('La cantidad pedida no puede exceder la cantidad disponible.');
+        isValid = false;
+      }
+    });
+    if (!isValid) {
+      e.preventDefault(); // Prevenir que el formulario se envíe
+    }
+  });
+});
+</script>

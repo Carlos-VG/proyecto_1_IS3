@@ -9,8 +9,7 @@ class PedidosController < ApplicationController
 
   def new
     @pedido = Pedido.new
-    @productos = Producto.all
-    puts "Productos: #{@productos}"
+    @productos = Producto.includes(:product_stock).all
   end
 
   def edit
