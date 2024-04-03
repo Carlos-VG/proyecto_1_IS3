@@ -1,13 +1,127 @@
-<!-- app/views/home/index.html.erb -->
-<link rel="stylesheet" type="text/css" href="app/assets/stylesheets/style.css">
-<div class="container">
-  <h1>Bienvenido a Mi Aplicación</h1>
-  <p>Esta es la página de inicio de mi fantástica aplicación web.</p>
+<!DOCTYPE html>
+<html lang="en">
 
-  <div class="home-links">
-    <%= link_to 'Productos', productos_path, class: 'button' %>
-    <%= link_to 'Pedidos', pedidos_path, class: 'button' %>
-    <%= link_to 'Agentes', agentes_path, class: 'button' %>
-    <%= link_to 'Nuevo Suministro', new_agente_producto_path, class: 'button' %>
-  </div>
-</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Productos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="app/assets/stylesheets/style.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .jumbotron {
+            background-image: url('https://via.placeholder.com/1200x400');
+            background-size: cover;
+            height: 400px;
+            padding-top: 80px;
+            margin-bottom: 0;
+            text-align: center;
+            color: #fff;
+        }
+
+        .jumbotron h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+        }
+
+        .jumbotron p {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Admin de Productos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <%= link_to 'Productos', productos_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to 'Pedidos', pedidos_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to 'Agentes', agentes_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to 'Nuevo Suministro', new_agente_producto_path, class: 'nav-link' %>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">¡Bienvenido!</h1>
+            <p class="lead">Administra tus productos de forma eficiente.</p>
+            <a href="#" class="btn btn-primary btn-lg">Empezar</a>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-4">Características Destacadas</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Gestión de Productos</h5>
+                                <p class="card-text">Agrega, edita y elimina productos de manera sencilla.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Seguimiento de Pedidos</h5>
+                                <p class="card-text">Administra los pedidos de tus clientes de forma eficiente.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Control de Agentes</h5>
+                                <p class="card-text">Gestiona tus agentes y sus actividades de suministro.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
