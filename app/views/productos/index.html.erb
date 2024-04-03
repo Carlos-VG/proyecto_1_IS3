@@ -1,29 +1,64 @@
 <!-- app/views/productos/index.html.erb -->
-<h1>Lista de Productos</h1>
+<link href="app/assets/stylesheets/style.css" rel="stylesheet" />
+<row>
+<h1 class="mt-4 text-center mx-auto">Lista de Productos</h1>
+<br>
+<div class="container-fluid px-4">
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Tabla de Productos
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Descripción</th>
+                            <th colspan="3">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @productos.each do |producto| %>
+                            <tr>
+                                <td><%= producto.id %></td>
+                                <td><%= producto.prod_nombre %></td>
+                                <td><%= producto.prod_precio %></td>
+                                <td><%= producto.prod_descripcion %></td>
+                                <td><%= link_to 'Ver', producto, class: 'btn btn-primary btn-sm' %></td>
+                                <td><%= link_to 'Editar', edit_producto_path(producto), class: 'btn btn-warning btn-sm' %></td>
+                                <td><%= link_to 'Eliminar', producto, method: :delete, data: { confirm: '¿Estás seguro?' }, "data-turbo-method": "delete",class: 'btn btn-danger btn-sm' %></td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-<table>
-  <tr>
-    <th>ID</th>
-    <th>Nombre</th>
-    <th>Precio</th>
-    <th>Descripción</th>
-    <th colspan="3">Acciones</th>
-  </tr>
+<div class="row justify-content-center">
+    <div class="col-xl-2 col-md-6">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body">Nuevo Producto</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="<%= new_producto_path %>">Crear nuevo producto</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-6">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body">Pagina de inicio</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="<%= root_path %>">Volver</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-  <% @productos.each do |producto| %>
-    <tr>
-      <td><%= producto.id %></td>
-      <td><%= producto.prod_nombre %></td>
-      <td><%= producto.prod_precio %></td>
-      <td><%= producto.prod_descripcion %></td>
-      <td><%= link_to 'Ver', producto %></td>
-      <td><%= link_to 'Editar', edit_producto_path(producto) %></td>
-      <td><%= link_to 'Eliminar', producto, method: :delete, data: { confirm: '¿Estás seguro?' }, "data-turbo-method": "delete" %></td>
-    </tr>
-  <% end %>
-</table>
-
-<%= link_to 'Nuevo Producto', new_producto_path %>
-<%= link_to 'Volver', root_path %>
-<link rel="stylesheet" type="text/css" href="app/assets/stylesheets/producto.css">
 

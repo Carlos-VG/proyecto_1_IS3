@@ -1,32 +1,63 @@
-<!-- app/views/pedidos/index.html.erb -->
-<h1>Lista de Pedidos</h1>
+<link href="app/assets/stylesheets/style.css" rel="stylesheet" />
+<row>
+  <h1 class="mt-4 text-center mx-auto">Lista de Pedidos</h1>
+  <br>
+  <div class="container-fluid px-4">
+    <div class="card mb-4">
+      <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Tabla de Pedidos
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="datatablesSimple">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Costo Total</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @pedidos.each do |pedido| %>
+                <tr>
+                  <td><%= pedido.id %></td>
+                  <td><%= pedido.clt_nombre %></td>
+                  <td><%= pedido.ped_fecha %></td>
+                  <td><%= number_to_currency(pedido.ped_costo) %></td>
+                  <td><%= link_to 'Ver', pedido, class: 'btn btn-primary btn-sm' %></td>
+                  <td>
+                    <%= link_to 'Eliminar', pedido, method: :delete, data: { confirm: '¿Estás seguro?' }, "data-turbo-method": "delete",class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Cliente</th>
-      <th>Fecha</th>
-      <th>Costo Total</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @pedidos.each do |pedido| %>
-      <tr>
-        <td><%= pedido.id %></td>
-        <td><%= pedido.clt_nombre %></td>
-        <td><%= pedido.ped_fecha %></td>
-        <td><%= number_to_currency(pedido.ped_costo) %></td>
-        <td>
-          <%= link_to 'Ver', pedido %> |
-          <%= link_to 'Eliminar', pedido, method: :delete, data: { confirm: '¿Estás seguro?' }, "data-turbo-method": "delete" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= link_to 'Crear Nuevo Pedido', new_pedido_path %>
-<%= link_to 'Volver', root_path %>
+  <div class="row justify-content-center">
+    <div class="col-xl-2 col-md-6">
+      <div class="card bg-primary text-white mb-4">
+        <div class="card-body">Crear Nuevo Pedido</div>
+        <div class="card-footer d-flex align-items-center justify-content-between">
+          <%= link_to 'Crear nuevo pedido', new_pedido_path, class: 'small text-white stretched-link' %>
+          <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-md-6">
+      <div class="card bg-danger text-white mb-4">
+        <div class="card-body">Pagina de inicio</div>
+        <div class="card-footer d-flex align-items-center justify-content-between">
+          <%= link_to 'Volver', root_path, class: 'small text-white stretched-link' %>
+          <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</row>

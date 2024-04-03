@@ -1,16 +1,24 @@
-<!-- app/views/productos/show.html.erb -->
-<h1>Producto</h1>
-<p>
-  <strong>Nombre:</strong>
-  <%= @producto.prod_nombre %>
-</p>
-<p>
-  <strong>Precio:</strong>
-  <%= @producto.prod_precio %>
-</p>
-<p>
-  <strong>Descripción:</strong>
-  <%= @producto.prod_descripcion %>
-</p>
-
-<%= link_to 'Volver', productos_path %>
+<div class="container">
+  <div class="row vh-100 align-items-center justify-content-center">
+    <div class="col-lg-6">
+      <div class="card border-primary shadow">
+        <div class="card-body text-center">
+          <h1 class="mt-4">Detalles del Producto</h1>
+          <hr>
+          <p class="mb-1">
+            <strong>Nombre:</strong> <%= @producto.prod_nombre %>
+          </p>
+          <p class="mb-1">
+            <strong>Precio:</strong> <%= number_to_currency(@producto.prod_precio, unit: 'COP') %>
+          </p>
+          <p class="mb-1">
+            <strong>Descripción:</strong> <%= @producto.prod_descripcion %>
+          </p>
+        </div>
+        <div class="card-footer text-center">
+          <%= link_to 'Volver', productos_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

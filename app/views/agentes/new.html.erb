@@ -1,27 +1,73 @@
-<!-- app/views/agentes/new.html.erb -->
-<h1>Nuevo Proveedor</h1>
+<link href="app/assets/stylesheets/style.css" rel="stylesheet" />
 
-<%= form_with(model: @agente, local: true) do |form| %>
-  <% if @agente.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@agente.errors.count, "error") %> prohibió que este agente se guardara:</h2>
+<div class="container">
+  <h1 class="mt-4 text-center">Nuevo Proveedor</h1>
 
-      <ul>
-        <% @agente.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <%= form_with(model: @agente, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
+    <% if @agente.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@agente.errors.count, "error") %> prohibió que este agente se guardara:</h2>
+
+        <ul>
+          <% @agente.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <%= form.label :nombre, class: "form-label" %>
+          <%= form.text_field :agen_nombre, class: "form-control", id: :agente_nombre, placeholder: "Nombre del proveedor", required: true %>
+          <div class="invalid-feedback">
+            Por favor ingresa el nombre del proveedor.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-6 text-center"> 
+        <%= form.submit "Guardar", class: "btn btn-primary", id: "submit-button" %>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :nombre %>
-    <%= form.text_field :agen_nombre, id: :agente_nombre %>
+  <div class="row justify-content-center mt-3">
+    <div class="col-lg-6 text-center">
+      <%= link_to 'Volver', agentes_path, class: "btn btn-secondary" %>
+    </div>
   </div>
+</div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var form = document.querySelector(".needs-validation");
+    var nombreInput = document.getElementById("agente_nombre");
+    var submitButton = document.getElementById("submit-button");
 
-<%= link_to 'Volver',agentes_path%>
+    function validateForm(event) {
+      if (!form.checkValidity() || !nombreInput.value) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add("was-validated");
+
+        if (!nombreInput.value) {
+          nombreInput.classList.add("is-invalid");
+        } else {
+          nombreInput.classList.remove("is-invalid");
+        }
+      } else {
+        form.classList.remove("was-validated");
+      }
+    }
+
+    submitButton.addEventListener("click", validateForm);
+
+    form.addEventListener("submit", function(event) {
+      validateForm(event);
+    });
+  });
+</script>

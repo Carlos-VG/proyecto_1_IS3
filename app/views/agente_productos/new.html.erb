@@ -1,20 +1,26 @@
-<!-- app/views/proveedor_productos/new.html.erb -->
-<h1>Pedir Nuevo Suministro de Productos</h1>
+<div class="container">
+  <h1 class="mt-4 text-center">Pedir Nuevo Suministro de Productos</h1>
 
-<%= form_with url: agente_productos_path, local: true do |form| %>
-  <div>
-    <%= form.label :agente_id, "Seleccionar Proveedor" %>
-    <%= select_tag :agente_id, options_from_collection_for_select(@agentes, :id, :agen_nombre) %>
-  </div>
+  <%= form_with url: agente_productos_path, local: true do |form| %>
+    <div class="mb-3">
+      <%= form.label :agente_id, "Seleccionar Proveedor", class: "form-label" %>
+      <%= select_tag :agente_id, options_from_collection_for_select(@agentes, :id, :agen_nombre), class: "form-control" %>
+    </div>
 
-  <h2>Productos</h2>
-  <% @productos.each do |producto| %>
-    <div>
-      <%= label_tag "productos_#{producto.id}_cantidad", producto.prod_nombre %>
-      <%= number_field_tag "productos[#{producto.id}][cantidad]", 0, min: 0 %>
+    <h2 class="mt-4">Productos</h2>
+    <% @productos.each do |producto| %>
+      <div class="mb-3">
+        <%= label_tag "productos_#{producto.id}_cantidad", producto.prod_nombre, class: "form-label" %>
+        <%= number_field_tag "productos[#{producto.id}][cantidad]", 0, min: 0, class: "form-control" %>
+      </div>
+    <% end %>
+
+    <div class="text-center">
+      <%= form.submit "Suministrar Productos", class: "btn btn-primary" %>
     </div>
   <% end %>
-
-  <%= form.submit "Suministrar Productos" %>
-<% end %>
-<%= link_to 'Volver', root_path %>
+      
+  <div class="text-center mt-4">
+    <%= link_to 'Volver', root_path, class: "btn btn-secondary" %>
+  </div>
+</div>

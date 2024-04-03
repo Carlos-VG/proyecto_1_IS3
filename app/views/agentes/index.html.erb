@@ -1,23 +1,56 @@
-<!-- app/views/productos/index.html.erb -->
-<h1>Lista de Proveedores</h1>
+<link href="app/assets/stylesheets/style.css" rel="stylesheet" />
+<div class="container">
+  <h1 class="mt-4 text-center mx-auto">Lista de Proveedores</h1>
 
-<table>
-  <tr>
-    <th>ID</th>
-    <th>Nombre</th>
-    <th colspan="3">Acciones</th>
-  </tr>
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Tabla de Proveedores
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="datatablesSimple">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th colspan="3">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @agentes.each do |agente| %>
+              <tr>
+                <td><%= agente.id %></td>
+                <td><%= agente.agen_nombre %></td>
+                <td><%= link_to 'Ver', agente, class: 'btn btn-primary btn-sm' %></td>
+                <td><%= link_to 'Editar', edit_agente_path(agente), class: 'btn btn-warning btn-sm' %></td>
+                <td><%= link_to 'Eliminar', agente, method: :delete, data: { confirm: '¿Estás seguro?' }, "data-turbo-method": "delete",class: 'btn btn-danger btn-sm' %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-  <% @agentes.each do |agente| %>
-    <tr>
-      <td><%= agente.id %></td>
-      <td><%= agente.agen_nombre %></td>
-      <td><%= link_to 'Ver', agente %></td>
-      <td><%= link_to 'Editar', edit_agente_path(agente) %></td>
-      <td><%= link_to 'Eliminar', agente, method: :delete, data: { confirm: '¿Estás seguro?' }, "data-turbo-method": "delete" %></td>
-    </tr>
-  <% end %>
-</table>
-
-<%= link_to 'Nuevo Agente', new_agente_path %>
-<%= link_to 'Volver',root_path%>
+  <div class="row justify-content-center">
+    <div class="col-xl-2 col-md-6">
+      <div class="card bg-primary text-white mb-4">
+        <div class="card-body">Nuevo Agente</div>
+        <div class="card-footer d-flex align-items-center justify-content-between">
+          <a class="small text-white stretched-link" href="<%= new_agente_path %>">Crear nuevo agente</a>
+          <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-md-6">
+      <div class="card bg-danger text-white mb-4">
+        <div class="card-body">Página de inicio</div>
+        <div class="card-footer d-flex align-items-center justify-content-between">
+          <a class="small text-white stretched-link" href="<%= root_path %>">Volver</a>
+          <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
