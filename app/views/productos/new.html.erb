@@ -1,37 +1,170 @@
-<!-- app/views/productos/new.html.erb -->
-<h1>Nuevo Producto</h1>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var form = document.querySelector(".needs-validation");
+    var nombreInput = document.getElementById("producto_prod_nombre");
+    var precioInput = document.getElementById("producto_prod_precio");
+    var descripcionInput = document.getElementById("producto_prod_descripcion");
+    var submitButton = document.getElementById("submit-button");
 
-<%= form_with(model: @producto, local: true) do |form| %>
-  <% if @producto.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@producto.errors.count, "error") %> prohibió que este producto se guardara:</h2>
+    function validateForm(event) {
+      if (!form.checkValidity() || !nombreInput.value || !precioInput.value || !descripcionInput.value) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add("was-validated");
 
-      <ul>
-        <% @producto.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+        if (!nombreInput.value) {
+          nombreInput.classList.add("is-invalid");
+        } else {
+          nombreInput.classList.remove("is-invalid");
+        }
 
-  <div class="field">
-    <%= form.label :nombre %>
-    <%= form.text_field :prod_nombre, id: :prod_nombre %>
+        if (!precioInput.value) {
+          precioInput.classList.add("is-invalid");
+        } else {
+          precioInput.classList.remove("is-invalid");
+        }
+
+        if (!descripcionInput.value) {
+          descripcionInput.classList.add("is-invalid");
+        } else {
+          descripcionInput.classList.remove("is-invalid");
+        }
+      } else {
+        form.classList.remove("was-validated");
+      }
+    }
+
+    submitButton.addEventListener("click", validateForm);
+
+    form.addEventListener("submit", function(event) {
+      validateForm(event);
+    });
+  });
+</script>
+
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<link href="styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        // Toggle the side navigation
+        const sidebarToggle = document.body.querySelector('#sidebarToggle');
+        if (sidebarToggle) {
+            // Uncomment Below to persist sidebar toggle between refreshes
+            // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+            //     document.body.classList.toggle('sb-sidenav-toggled');
+            // }
+            sidebarToggle.addEventListener('click', event => {
+                event.preventDefault();
+                document.body.classList.toggle('sb-sidenav-toggled');
+                localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+            });
+        }
+    });
+</script>
+
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+  <!-- Navbar Brand-->
+  <a class="navbar-brand ps-3" href="<%= root_path %>">La tiendita de varCollazos</a>
+  <!-- Sidebar Toggle-->
+  <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 ps-4" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+</nav>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+      <div class="sb-sidenav-menu">
+        <div class="nav">
+          <div class="sb-sidenav-menu-heading">Menu</div>
+          <a class="nav-link" href="<%= productos_path %>">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            Productos
+          </a>
+          <a class="nav-link" href="<%= pedidos_path %>">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            Pedidos
+          </a>
+          <a class="nav-link" href="<%= agentes_path %>">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            Agentes
+          </a>
+          <a class="nav-link" href="<%= new_agente_producto_path %>">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            Nuevo Suministro
+          </a>
+        </div>
+      </div>
+      <div class="sb-sidenav-footer">
+        <div class="small"></div>
+        UNIVERSIDAD DEL CAUCA
+      </div>
+    </nav>
   </div>
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container px-4">
+        <h1 class="mt-4 text-center">Nuevo Producto</h1>
+        <hr>
+        <%= form_with(model: @producto, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
+            <% if @producto.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@producto.errors.count, "error") %> prohibió que este producto se guardara:</h2>
+                <ul>
+                  <% @producto.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
 
-  <div class="field">
-    <%= form.label :precio %>
-    <%= form.number_field :prod_precio, id: :prod_precio %>
+            <div class="row justify-content-center">
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <%= form.label :nombre, class: "form-label" %>
+                  <%= form.text_field :prod_nombre, class: "form-control", id: :prod_nombre, placeholder: "Nombre del producto", required: true %>
+                  <div class="invalid-feedback">
+                    Por favor ingresa el nombre del producto.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row justify-content-center">
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <%= form.label :precio, class: "form-label" %>
+                  <div class="input-group">
+                    <span class="input-group-text">COP</span>
+                    <%= form.number_field :prod_precio, class: "form-control", id: :prod_precio, placeholder: "Precio del producto", required: true %>
+                    <div class="invalid-feedback">
+                      Por favor ingresa el precio del producto.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row justify-content-center">
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <%= form.label :descripcion, class: "form-label" %>
+                  <%= form.text_area :prod_descripcion, class: "form-control", id: :prod_descripcion, placeholder: "Descripción del producto", required: true %>
+                  <div class="invalid-feedback">
+                    Por favor ingresa la descripción del producto.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row justify-content-center">
+              <div class="col-lg-6 text-center"> <!-- Centrar el botón y el link -->
+                <%= form.submit "Guardar", class: "btn btn-primary", id: "submit-button" %>
+                <%= link_to 'Volver', productos_path, class: "btn btn-secondary" %>
+              </div>
+            </div>
+          <% end %>
+      </div>
+    </main>
   </div>
-
-  <div class="field">
-    <%= form.label :descripcion %>
-    <%= form.text_area :prod_descripcion, id: :prod_descripcion %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
-
-<%= link_to 'Volver', productos_path %>
+</div>
+</body>

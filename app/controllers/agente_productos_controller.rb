@@ -32,7 +32,7 @@ class AgenteProductosController < ApplicationController
           producto_id: producto_id,
           agente_id: agente_id,
           prod_cantidad: cantidad,
-          fechaSuministro: Time.now
+          fechaSuministro: Date.today
         )
 
         # Encuentra el stock antiguo del producto

@@ -1,29 +1,38 @@
-<h1>Proveedor</h1>
-
-<% if @agente_productos.any? %>
-  <table>
-    <thead>
-    <tr>
-      <th>Nombre del Agente</th>
-      <th>Nombre del Producto</th>
-      <th>Cantidad</th>
-      <th>Fecha de Suministro</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @agente_productos.order(fechaSuministro: :desc).each do |agente_producto| %>
-      <tr>
-        <td><%= agente_producto.agente.agen_nombre %></td>
-        <td><%= agente_producto.producto.prod_nombre %></td>
-        <td><%= agente_producto.prod_cantidad %></td>
-        <td><%= agente_producto.fechaSuministro.strftime("%d-%m-%Y") %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>El agente no tiene suministros.</p>
-<% end %>
-
-<br>
-<%= link_to 'Volver', agentes_path %>
+<div class="container">
+  <div class="row vh-100 align-items-center justify-content-center">
+    <div class="col-lg-6">
+      <div class="card border-primary shadow">
+        <div class="card-body text-center">
+          <h1 class="mt-4">Proveedor</h1>
+          <% if @agente_productos.any? %>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre del Agente</th>
+                  <th>Nombre del Producto</th>
+                  <th>Cantidad</th>
+                  <th>Fecha de Suministro</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @agente_productos.order(fechaSuministro: :desc).each do |agente_producto| %>
+                  <tr>
+                    <td><%= agente_producto.agente.agen_nombre %></td>
+                    <td><%= agente_producto.producto.prod_nombre %></td>
+                    <td><%= agente_producto.prod_cantidad %></td>
+                    <td><%= agente_producto.fechaSuministro.strftime("%d-%m-%Y") %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <p>El agente no tiene suministros.</p>
+          <% end %>
+        </div>
+        <div class="card-footer text-center">
+          <%= link_to 'Volver', agentes_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,45 +1,48 @@
-<!-- app/views/pedidos/show.html.erb -->
-<h1>Pedido <%= @pedido.id %></h1>
-
-<p>
-  <strong>Nombre del cliente:</strong>
-  <%= @pedido.clt_nombre %>
-</p>
-
-<p>
-  <strong>Dirección de entrega:</strong>
-  <%= @pedido.clt_direccion %>
-</p>
-
-<p>
-  <strong>Fecha del pedido:</strong>
-  <%= @pedido.ped_fecha %>
-</p>
-
-<p>
-  <strong>Costo total:</strong>
-  <%= number_to_currency(@pedido.ped_costo) %>
-</p>
-
-<h2>Productos en este pedido</h2>
-<table>
-  <thead>
-  <tr>
-    <th>Nombre del Producto</th>
-    <th>Cantidad</th>
-    <th>Precio Unitario</th>
-    <th>Subtotal</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @pedido.pedido_productos.each do |pedido_producto| %>
-    <tr>
-      <td><%= pedido_producto.producto.prod_nombre %></td>
-      <td><%= pedido_producto.ped_prod_cantidad %></td>
-      <td><%= number_to_currency(pedido_producto.producto.prod_precio) %></td>
-      <td><%= number_to_currency(pedido_producto.ped_prod_cantidad * pedido_producto.producto.prod_precio) %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
-<%= link_to 'Volver a la lista de pedidos', pedidos_path %>
+<div class="container">
+  <div class="row vh-100 align-items-center justify-content-center">
+    <div class="col-lg-6">
+      <div class="card border-primary shadow">
+        <div class="card-body text-center">
+          <h1 class="mt-4">Pedido <%= @pedido.id %></h1>
+          <hr>
+          <p class="mb-1">
+            <strong>Nombre del cliente:</strong> <%= @pedido.clt_nombre %>
+          </p>
+          <p class="mb-1">
+            <strong>Dirección de entrega:</strong> <%= @pedido.clt_direccion %>
+          </p>
+          <p class="mb-1">
+            <strong>Fecha del pedido:</strong> <%= @pedido.ped_fecha %>
+          </p>
+          <p class="mb-1">
+            <strong>Costo total:</strong> <%= number_to_currency(@pedido.ped_costo, unit: 'COP') %>
+          </p>
+          <h2 class="mt-4">Productos en este pedido</h2>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Nombre del Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @pedido.pedido_productos.each do |pedido_producto| %>
+                <tr>
+                  <td><%= pedido_producto.producto.prod_nombre %></td>
+                  <td><%= pedido_producto.ped_prod_cantidad %></td>
+                  <td><%= number_to_currency(pedido_producto.producto.prod_precio, unit: 'COP') %></td>
+                  <td><%= number_to_currency(pedido_producto.ped_prod_cantidad * pedido_producto.producto.prod_precio, unit: 'COP') %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer text-center">
+          <%= link_to 'Volver a la lista de pedidos', pedidos_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
